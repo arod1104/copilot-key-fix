@@ -54,9 +54,9 @@ public class KeyDetector {
             bool extended = (info.flags & 0x01) != 0;
             string extText = extended ? " (Extended)" : "";
             Console.WriteLine(
-                "VK: 0x{0:X4} ({0})  |  ScanCode: 0x{1:X4} ({1})  |  Flags: 0x{2:X4}{3}  |  Nombre: {4}",
+                "VK: 0x{0:X4} ({0})  |  ScanCode: 0x{1:X4} ({1})  |  Flags: 0x{2:X4}{3}  |  Name: {4}",
                 info.vkCode, info.scanCode, info.flags, extText,
-                Enum.IsDefined(typeof(ConsoleKey), (int)info.vkCode) ? ((ConsoleKey)info.vkCode).ToString() : "Desconocido"
+                Enum.IsDefined(typeof(ConsoleKey), (int)info.vkCode) ? ((ConsoleKey)info.vkCode).ToString() : "Unknown"
             );
         }
         return CallNextHookEx(hookId, nCode, wParam, lParam);
@@ -66,13 +66,13 @@ public class KeyDetector {
 
 Write-Host ""
 Write-Host "=============================================" -ForegroundColor Cyan
-Write-Host "  DETECTOR DE TECLA COPILOT - ASUS FIX" -ForegroundColor Cyan
+Write-Host "  COPILOT KEY DETECTOR - ASUS FIX" -ForegroundColor Cyan
 Write-Host "=============================================" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "Presiona la tecla COPILOT (y cualquier otra tecla para comparar)." -ForegroundColor Yellow
-Write-Host "Presiona Ctrl+C para salir." -ForegroundColor Yellow
+Write-Host "Press the COPILOT key (and any other key to compare)." -ForegroundColor Yellow
+Write-Host "Press Ctrl+C to exit." -ForegroundColor Yellow
 Write-Host ""
-Write-Host "Esperando teclas..." -ForegroundColor Green
+Write-Host "Waiting for keys..." -ForegroundColor Green
 Write-Host ""
 
 [KeyDetector]::Start()

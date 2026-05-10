@@ -1,12 +1,12 @@
 #Requires AutoHotkey v2.0
 
 ; ==============================================
-;  FIX ASUS: Remapear tecla Copilot a RCtrl
+;  FIX ASUS: Remap Copilot key to RCtrl
 ;
-;  La tecla Copilot envia LWin+LShift+F23 (~1ms entre eventos).
-;  Interceptamos LWin y LShift ANTES de que lleguen al OS.
-;  Si F23 aparece dentro de 30ms -> es Copilot -> activar RCtrl.
-;  Si no -> son teclas reales -> dejarlas pasar.
+;  The Copilot key sends LWin+LShift+F23 (~1ms between events).
+;  We intercept LWin and LShift BEFORE they reach the OS.
+;  If F23 appears within 30ms -> it's Copilot -> activate RCtrl.
+;  If not -> real keys -> let them pass.
 ; ==============================================
 
 #SingleInstance Force
@@ -14,7 +14,7 @@
 global state := "idle"
 global shiftSuppressed := false
 
-; --- LWin: interceptar y retener ---
+; --- LWin: intercept and hold ---
 $*LWin::{
     global state
     state := "waiting"
@@ -36,10 +36,10 @@ $*LWin up::{
         state := "idle"
         SendInput "{LWin up}"
     }
-    ; "copilot" o "idle" -> ignorar
+    ; "copilot" or "idle" -> ignore
 }
 
-; --- LShift: interceptar solo si estamos esperando F23 ---
+; --- LShift: intercept only if waiting for F23 ---
 $*LShift::{
     global state, shiftSuppressed
     if state = "waiting" {
@@ -59,7 +59,7 @@ $*LShift up::{
     }
 }
 
-; --- Timer: si pasan 30ms sin F23, son teclas reales ---
+; --- Timer: if 30ms pass without F23, these are real keys ---
 PassKeys() {
     global state, shiftSuppressed
     if state = "waiting" {
@@ -73,7 +73,7 @@ PassKeys() {
     }
 }
 
-; --- F23 (SC06E) = Copilot key: activar RCtrl ---
+; --- F23 (SC06E) = Copilot key: activate RCtrl ---
 $*SC06E::{
     global state, shiftSuppressed
     SetTimer(PassKeys, 0)
